@@ -28,4 +28,9 @@ class QuestionAnswer < ActiveRecord::Base
   end
 
 
+  def response_count
+    QuestionAnswer.where(:answer_id => self.answer_id).count
+  end
+
+
 end
