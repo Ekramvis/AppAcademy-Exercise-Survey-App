@@ -3,15 +3,16 @@ class QuestionAnswer < ActiveRecord::Base
 
   validates :user_id, :presence => true
   validates :answer_id, :presence => true
+
   validate :unique_qa
   validate :own_question
-
-  # validates :user_id, :uniqueness => { :scope => :answer_id }
+  validate :team_restricted
 
   belongs_to :user
   belongs_to :answer
 
   has_one :question, :through => :answer
+  has_one :poll, :through => :question
 
 
   def unique_qa
@@ -27,10 +28,14 @@ class QuestionAnswer < ActiveRecord::Base
     end
   end
 
-
   def response_count
     QuestionAnswer.where(:answer_id => self.answer_id).count
   end
 
-
+  def team_restricted
+    poll_team_id = self.question.poll.team_id
+    if poll_team_id != self.user.team_id && !poll_team_id.nil?
+      errors.add(:user_id, "Poll is restricted.")
+    end
+  end
 end

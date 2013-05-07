@@ -10,4 +10,9 @@ class User < ActiveRecord::Base
   has_many :question_answers
 
   has_many :questions_answered, :through => :question_answers, :source => :question
+
+  has_many :participated_polls, :through => :questions_answered, :source => :poll
+
+  has_many :answers, :through => :questions_answered
+
 end

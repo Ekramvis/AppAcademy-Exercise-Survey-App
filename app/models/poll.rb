@@ -1,5 +1,5 @@
 class Poll < ActiveRecord::Base
-  attr_accessible :name, :user_id
+  attr_accessible :name, :user_id, :team_id
   validates :name, presence: true, length: { maximum: 20 }
   validates :user_id, presence: true
 
