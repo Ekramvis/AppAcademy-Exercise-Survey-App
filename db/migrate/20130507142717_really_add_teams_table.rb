@@ -1,4 +1,4 @@
-class AddTeamsTable < ActiveRecord::Migration
+class ReallyAddTeamsTable < ActiveRecord::Migration
   def change
     create_table :teams do |t|
       t.string :name
