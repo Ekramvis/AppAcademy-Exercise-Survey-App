@@ -7,8 +7,6 @@ class QuestionAnswer < ActiveRecord::Base
 
   # validates :user_id, :uniqueness => { :scope => :answer_id }
 
-
-
   belongs_to :user
   belongs_to :answer
 
@@ -16,11 +14,9 @@ class QuestionAnswer < ActiveRecord::Base
 
 
   def unique_qa
-    QuestionAnswer.all.each do |qa_pair|
-      if qa_pair.user_id == self.user_id && qa_pair.question.id == self.question.id
-        return errors.add(:user_id, "cannot answer same question")
-      end
-    end
+    possible_answer_ids = self.question.answers.map { |answer| answer.id }
+    answer = self.user.question_answers.where('? IN (?)', self.answer_id, possible_answer_ids)
+    errors.add(:user_id, "Can't answer same question.") unless answer.empty?
   end
 
 
