@@ -4,5 +4,11 @@ class Answer < ActiveRecord::Base
   validates :question_id, presence: true
 
   belongs_to :question
-  has_many :question_answers
+  has_many :question_answers, :dependent => :destroy
+
+  after_destroy :log_destroy_action
+
+  def log_destroy_action
+    puts 'Answer destroyed'
+  end
 end

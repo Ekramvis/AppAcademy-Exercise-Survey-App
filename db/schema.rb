@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130507214034) do
+ActiveRecord::Schema.define(:version => 20130507232144) do
 
   create_table "answers", :force => true do |t|
     t.text     "text"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(:version => 20130507214034) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  add_index "answers", ["question_id"], :name => "index_answers_on_question_id"
 
   create_table "polls", :force => true do |t|
     t.string   "name"
@@ -28,6 +30,8 @@ ActiveRecord::Schema.define(:version => 20130507214034) do
     t.integer  "team_id"
   end
 
+  add_index "polls", ["user_id"], :name => "index_polls_on_user_id"
+
   create_table "question_answers", :force => true do |t|
     t.integer  "user_id"
     t.integer  "answer_id"
@@ -35,12 +39,16 @@ ActiveRecord::Schema.define(:version => 20130507214034) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "question_answers", ["answer_id"], :name => "index_question_answers_on_answer_id"
+
   create_table "questions", :force => true do |t|
     t.text     "text"
     t.integer  "poll_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "questions", ["poll_id"], :name => "index_questions_on_poll_id"
 
   create_table "teams", :force => true do |t|
     t.string   "name"
@@ -54,5 +62,7 @@ ActiveRecord::Schema.define(:version => 20130507214034) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "users", ["team_id"], :name => "index_users_on_team_id"
 
 end

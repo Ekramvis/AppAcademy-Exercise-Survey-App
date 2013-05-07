@@ -3,5 +3,5 @@ class Team < ActiveRecord::Base
 
   validates :name, presence: true, length: { :maximum => 20 }
 
-  has_many :users
+  has_many :users, :dependent => :nullify
 end

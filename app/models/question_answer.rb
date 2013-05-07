@@ -14,6 +14,11 @@ class QuestionAnswer < ActiveRecord::Base
   has_one :question, :through => :answer
   has_one :poll, :through => :question
 
+  after_destroy :log_destroy_action
+
+  def log_destroy_action
+    puts 'QuestionAnswer destroyed'
+  end
 
   def unique_qa
     possible_answer_ids = self.question.answers.map { |answer| answer.id }

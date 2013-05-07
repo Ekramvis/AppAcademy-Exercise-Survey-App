@@ -4,8 +4,13 @@ class Question < ActiveRecord::Base
   validates :poll_id, presence: true
 
   belongs_to :poll
-  has_many :answers
+  has_many :answers, :dependent => :destroy
 
+  after_destroy :log_destroy_action
+
+  def log_destroy_action
+    puts 'Question destroyed'
+  end
   # has_one :user, :through => :poll
   # has_one :team, :through => :user
   #
